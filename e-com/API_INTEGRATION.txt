@@ -1,0 +1,858 @@
+API INTEGRATION GUIDE
+E-COMMERCE SALES AND ANALYTICS DASHBOARD
+=========================================
+
+OVERVIEW
+========
+
+This document provides comprehensive guidance for integrating the E-Commerce Dashboard with a backend API. The current implementation uses mock data that can be easily replaced with real API calls.
+
+API ARCHITECTURE
+================
+
+REST API ENDPOINTS
+------------------
+
+Base URL: https://api.yourdomain.com/v1
+
+Authentication:
+- Authorization: Bearer {token}
+- Content-Type: application/json
+
+ENDPOINTS REFERENCE
+===================
+
+1. METRICS ENDPOINT
+-------------------
+GET /api/v1/metrics?range=30
+
+Description: Retrieve key performance indicators
+
+Query Parameters:
+- range (required): Number of days (7, 30, 90, 365)
+
+Response Format:
+{
+    "success": true,
+    "data": {
+        "revenue": 524890,
+        "revenue_change_percent": 12.5,
+        "orders": 2847,
+        "orders_change_percent": 8.2,
+        "conversion_rate": 3.24,
+        "conversion_change_percent": -0.5,
+        "average_order_value": 185.20,
+        "aov_change_percent": 5.1,
+        "currency": "USD"
+    },
+    "timestamp": "2024-03-15T10:30:00Z"
+}
+
+Implementation in JavaScript:
+async function fetchMetrics(range) {
+    try {
+        const response = await fetch(
+            'https://api.yourdomain.com/v1/metrics?range=' + range,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN',
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch metrics');
+        }
+        
+        const result = await response.json();
+        return result.data;
+    } catch (error) {
+        console.error('Error fetching metrics:', error);
+        return null;
+    }
+}
+
+2. REVENUE CHART ENDPOINT
+-------------------------
+GET /api/v1/revenue/trend?range=30
+
+Description: Get revenue data for line chart
+
+Query Parameters:
+- range (required): Number of days (7, 30, 90, 365)
+
+Response Format:
+{
+    "success": true,
+    "data": {
+        "labels": ["January", "February", "March", "April", "May", "June"],
+        "datasets": [
+            {
+                "label": "Revenue (USD)",
+                "data": [45000, 52000, 48000, 61000, 55000, 67000],
+                "currency": "USD"
+            }
+        ]
+    },
+    "timestamp": "2024-03-15T10:30:00Z"
+}
+
+Implementation in JavaScript:
+async function fetchRevenueData(range) {
+    try {
+        const response = await fetch(
+            'https://api.yourdomain.com/v1/revenue/trend?range=' + range,
+            {
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN'
+                }
+            }
+        );
+        
+        const result = await response.json();
+        return result.data;
+    } catch (error) {
+        console.error('Error fetching revenue data:', error);
+        return null;
+    }
+}
+
+3. SALES BY CATEGORY ENDPOINT
+-----------------------------
+GET /api/v1/sales/by-category?range=30
+
+Description: Get sales distribution by product category
+
+Query Parameters:
+- range (required): Number of days
+
+Response Format:
+{
+    "success": true,
+    "data": {
+        "labels": ["Electronics", "Clothing", "Home", "Sports", "Books"],
+        "datasets": [
+            {
+                "label": "Sales Distribution",
+                "data": [35, 25, 20, 12, 8],
+                "unit": "percentage"
+            }
+        ]
+    },
+    "timestamp": "2024-03-15T10:30:00Z"
+}
+
+Implementation in JavaScript:
+async function fetchCategoryData(range) {
+    try {
+        const response = await fetch(
+            'https://api.yourdomain.com/v1/sales/by-category?range=' + range,
+            {
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN'
+                }
+            }
+        );
+        
+        const result = await response.json();
+        return result.data;
+    } catch (error) {
+        console.error('Error fetching category data:', error);
+        return null;
+    }
+}
+
+4. TRAFFIC SOURCES ENDPOINT
+---------------------------
+GET /api/v1/orders/by-source?range=30
+
+Description: Get order distribution by traffic source
+
+Query Parameters:
+- range (required): Number of days
+
+Response Format:
+{
+    "success": true,
+    "data": {
+        "labels": ["Direct", "Organic", "Paid Ads", "Social", "Referral"],
+        "datasets": [
+            {
+                "label": "Number of Orders",
+                "data": [450, 320, 580, 290, 180]
+            }
+        ]
+    },
+    "timestamp": "2024-03-15T10:30:00Z"
+}
+
+Implementation in JavaScript:
+async function fetchSourceData(range) {
+    try {
+        const response = await fetch(
+            'https://api.yourdomain.com/v1/orders/by-source?range=' + range,
+            {
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN'
+                }
+            }
+        );
+        
+        const result = await response.json();
+        return result.data;
+    } catch (error) {
+        console.error('Error fetching source data:', error);
+        return null;
+    }
+}
+
+5. CUSTOMER ACQUISITION ENDPOINT
+--------------------------------
+GET /api/v1/customers/acquisition?range=30
+
+Description: Get new customer count by week
+
+Query Parameters:
+- range (required): Number of days
+
+Response Format:
+{
+    "success": true,
+    "data": {
+        "labels": ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
+        "datasets": [
+            {
+                "label": "New Customers",
+                "data": [120, 145, 135, 165, 180]
+            }
+        ]
+    },
+    "timestamp": "2024-03-15T10:30:00Z"
+}
+
+Implementation in JavaScript:
+async function fetchCustomerData(range) {
+    try {
+        const response = await fetch(
+            'https://api.yourdomain.com/v1/customers/acquisition?range=' + range,
+            {
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN'
+                }
+            }
+        );
+        
+        const result = await response.json();
+        return result.data;
+    } catch (error) {
+        console.error('Error fetching customer data:', error);
+        return null;
+    }
+}
+
+6. TOP PRODUCTS ENDPOINT
+------------------------
+GET /api/v1/products/top?limit=5&range=30
+
+Description: Get top performing products
+
+Query Parameters:
+- limit (optional): Number of products to return (default: 5)
+- range (optional): Number of days (default: 30)
+
+Response Format:
+{
+    "success": true,
+    "data": {
+        "products": [
+            {
+                "id": 1,
+                "name": "Wireless Headphones Pro",
+                "category": "Electronics",
+                "units_sold": 1245,
+                "revenue": 124500,
+                "margin_percent": 35,
+                "status": "active"
+            },
+            {
+                "id": 2,
+                "name": "Smart Watch Ultra",
+                "category": "Wearables",
+                "units_sold": 892,
+                "revenue": 98120,
+                "margin_percent": 42,
+                "status": "active"
+            }
+        ]
+    },
+    "timestamp": "2024-03-15T10:30:00Z"
+}
+
+Implementation in JavaScript:
+async function fetchTopProducts(limit = 5, range = 30) {
+    try {
+        const response = await fetch(
+            'https://api.yourdomain.com/v1/products/top?limit=' + limit + '&range=' + range,
+            {
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN'
+                }
+            }
+        );
+        
+        const result = await response.json();
+        return result.data.products;
+    } catch (error) {
+        console.error('Error fetching top products:', error);
+        return [];
+    }
+}
+
+7. RECENT ORDERS ENDPOINT
+-------------------------
+GET /api/v1/orders/recent?limit=5
+
+Description: Get recent orders
+
+Query Parameters:
+- limit (optional): Number of orders to return (default: 5)
+
+Response Format:
+{
+    "success": true,
+    "data": {
+        "orders": [
+            {
+                "id": 5847,
+                "order_number": "ORD-2024-5847",
+                "customer_name": "John Doe",
+                "customer_email": "john@example.com",
+                "amount": 2450,
+                "currency": "USD",
+                "date": "2024-03-15T10:30:00Z",
+                "status": "delivered"
+            },
+            {
+                "id": 5846,
+                "order_number": "ORD-2024-5846",
+                "customer_name": "Jane Smith",
+                "customer_email": "jane@example.com",
+                "amount": 1890,
+                "currency": "USD",
+                "date": "2024-03-14T15:20:00Z",
+                "status": "delivered"
+            }
+        ]
+    },
+    "timestamp": "2024-03-15T10:30:00Z"
+}
+
+Implementation in JavaScript:
+async function fetchRecentOrders(limit = 5) {
+    try {
+        const response = await fetch(
+            'https://api.yourdomain.com/v1/orders/recent?limit=' + limit,
+            {
+                headers: {
+                    'Authorization': 'Bearer YOUR_TOKEN'
+                }
+            }
+        );
+        
+        const result = await response.json();
+        return result.data.orders;
+    } catch (error) {
+        console.error('Error fetching recent orders:', error);
+        return [];
+    }
+}
+
+COMPLETE INTEGRATION EXAMPLE
+============================
+
+Updated script.js Implementation:
+
+async function initializeDashboard() {
+    updateCurrentDate();
+    await loadAllDashboardData('30');
+    setupNavigation();
+    setupEventListeners();
+}
+
+async function loadAllDashboardData(range) {
+    try {
+        // Fetch all data in parallel
+        const [metrics, revenue, category, source, customers, products, orders] = await Promise.all([
+            fetchMetrics(range),
+            fetchRevenueData(range),
+            fetchCategoryData(range),
+            fetchSourceData(range),
+            fetchCustomerData(range),
+            fetchTopProducts(5, range),
+            fetchRecentOrders(5)
+        ]);
+        
+        // Update metrics
+        if (metrics) {
+            updateMetricValue('total-revenue', metrics.revenue);
+            updateMetricValue('total-orders', metrics.orders);
+            updateMetricValue('conversion-rate', metrics.conversion_rate);
+            updateMetricValue('average-order', metrics.average_order_value);
+        }
+        
+        // Update charts
+        if (revenue) updateRevenueChart(revenue);
+        if (category) updateCategoryChart(category);
+        if (source) updateSourceChart(source);
+        if (customers) updateCustomerChart(customers);
+        
+        // Update tables
+        if (products) updateProductsTable(products);
+        if (orders) updateOrdersTable(orders);
+        
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        showErrorMessage('Failed to load dashboard data. Please refresh the page.');
+    }
+}
+
+function handleDateRangeChange(event) {
+    const selectedRange = event.target.value;
+    loadAllDashboardData(selectedRange);
+}
+
+BACKEND IMPLEMENTATION EXAMPLES
+===============================
+
+NODE.JS / EXPRESS EXAMPLE
+-------------------------
+
+const express = require('express');
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(authenticateToken);
+
+// Metrics Endpoint
+app.get('/api/v1/metrics', async (req, res) => {
+    try {
+        const range = req.query.range || 30;
+        const metrics = await getMetricsFromDatabase(range);
+        
+        res.json({
+            success: true,
+            data: metrics,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch metrics'
+        });
+    }
+});
+
+// Revenue Trend Endpoint
+app.get('/api/v1/revenue/trend', async (req, res) => {
+    try {
+        const range = req.query.range || 30;
+        const data = await getRevenueTrendFromDatabase(range);
+        
+        res.json({
+            success: true,
+            data: {
+                labels: data.labels,
+                datasets: [
+                    {
+                        label: 'Revenue (USD)',
+                        data: data.values,
+                        currency: 'USD'
+                    }
+                ]
+            },
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch revenue data'
+        });
+    }
+});
+
+// Top Products Endpoint
+app.get('/api/v1/products/top', async (req, res) => {
+    try {
+        const limit = req.query.limit || 5;
+        const range = req.query.range || 30;
+        const products = await getTopProductsFromDatabase(limit, range);
+        
+        res.json({
+            success: true,
+            data: {
+                products: products
+            },
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch products'
+        });
+    }
+});
+
+// Recent Orders Endpoint
+app.get('/api/v1/orders/recent', async (req, res) => {
+    try {
+        const limit = req.query.limit || 5;
+        const orders = await getRecentOrdersFromDatabase(limit);
+        
+        res.json({
+            success: true,
+            data: {
+                orders: orders
+            },
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch orders'
+        });
+    }
+});
+
+// Authentication Middleware
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            error: 'Access token required'
+        });
+    }
+    
+    // Verify token (implement your logic)
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({
+                success: false,
+                error: 'Invalid token'
+            });
+        }
+        req.user = user;
+        next();
+    });
+}
+
+app.listen(3000, () => {
+    console.log('API server running on port 3000');
+});
+
+PYTHON / FLASK EXAMPLE
+----------------------
+
+from flask import Flask, request, jsonify
+from datetime import datetime, timedelta
+import jwt
+from functools import wraps
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your-secret-key'
+
+# Authentication Decorator
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        
+        if not token:
+            return jsonify({'success': False, 'error': 'Token required'}), 401
+        
+        try:
+            token = token.split(' ')[1]
+            jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        except:
+            return jsonify({'success': False, 'error': 'Invalid token'}), 403
+        
+        return f(*args, **kwargs)
+    
+    return decorated
+
+# Metrics Endpoint
+@app.route('/api/v1/metrics', methods=['GET'])
+@token_required
+def get_metrics():
+    try:
+        range_days = request.args.get('range', 30, type=int)
+        metrics = get_metrics_from_database(range_days)
+        
+        return jsonify({
+            'success': True,
+            'data': metrics,
+            'timestamp': datetime.utcnow().isoformat() + 'Z'
+        })
+    except Exception as error:
+        return jsonify({
+            'success': False,
+            'error': str(error)
+        }), 500
+
+# Revenue Trend Endpoint
+@app.route('/api/v1/revenue/trend', methods=['GET'])
+@token_required
+def get_revenue_trend():
+    try:
+        range_days = request.args.get('range', 30, type=int)
+        data = get_revenue_from_database(range_days)
+        
+        return jsonify({
+            'success': True,
+            'data': {
+                'labels': data['labels'],
+                'datasets': [
+                    {
+                        'label': 'Revenue (USD)',
+                        'data': data['values'],
+                        'currency': 'USD'
+                    }
+                ]
+            },
+            'timestamp': datetime.utcnow().isoformat() + 'Z'
+        })
+    except Exception as error:
+        return jsonify({
+            'success': False,
+            'error': str(error)
+        }), 500
+
+# Top Products Endpoint
+@app.route('/api/v1/products/top', methods=['GET'])
+@token_required
+def get_top_products():
+    try:
+        limit = request.args.get('limit', 5, type=int)
+        range_days = request.args.get('range', 30, type=int)
+        products = get_top_products_from_database(limit, range_days)
+        
+        return jsonify({
+            'success': True,
+            'data': {
+                'products': products
+            },
+            'timestamp': datetime.utcnow().isoformat() + 'Z'
+        })
+    except Exception as error:
+        return jsonify({
+            'success': False,
+            'error': str(error)
+        }), 500
+
+# Recent Orders Endpoint
+@app.route('/api/v1/orders/recent', methods=['GET'])
+@token_required
+def get_recent_orders():
+    try:
+        limit = request.args.get('limit', 5, type=int)
+        orders = get_recent_orders_from_database(limit)
+        
+        return jsonify({
+            'success': True,
+            'data': {
+                'orders': orders
+            },
+            'timestamp': datetime.utcnow().isoformat() + 'Z'
+        })
+    except Exception as error:
+        return jsonify({
+            'success': False,
+            'error': str(error)
+        }), 500
+
+# Database Query Functions
+def get_metrics_from_database(range_days):
+    # Implementation for your database
+    pass
+
+def get_revenue_from_database(range_days):
+    # Implementation for your database
+    pass
+
+def get_top_products_from_database(limit, range_days):
+    # Implementation for your database
+    pass
+
+def get_recent_orders_from_database(limit):
+    # Implementation for your database
+    pass
+
+if __name__ == '__main__':
+    app.run(debug=True, port=3000)
+
+ERROR HANDLING
+==============
+
+Frontend Error Handling:
+
+function showErrorMessage(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+}
+
+function handleAPIError(error, context) {
+    console.error('API Error in ' + context + ':', error);
+    
+    if (error.message === 'Failed to fetch') {
+        showErrorMessage('Network error. Please check your connection.');
+    } else if (error.status === 401) {
+        showErrorMessage('Authentication failed. Please log in again.');
+        // Redirect to login
+    } else if (error.status === 403) {
+        showErrorMessage('You do not have permission to access this resource.');
+    } else if (error.status === 500) {
+        showErrorMessage('Server error. Please try again later.');
+    } else {
+        showErrorMessage('An error occurred: ' + error.message);
+    }
+}
+
+HTTP STATUS CODES
+==================
+
+200 OK - Successful request
+201 Created - Resource created successfully
+400 Bad Request - Invalid parameters
+401 Unauthorized - Missing or invalid token
+403 Forbidden - Access denied
+404 Not Found - Resource not found
+500 Internal Server Error - Server error
+503 Service Unavailable - Server temporarily unavailable
+
+RATE LIMITING
+=============
+
+Implement rate limiting to prevent abuse:
+
+Node.js Example:
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+
+app.use('/api/', limiter);
+
+CACHING STRATEGIES
+==================
+
+Implement caching for better performance:
+
+Frontend Caching:
+// Cache API responses for 5 minutes
+const cache = {};
+const CACHE_DURATION = 5 * 60 * 1000;
+
+async function fetchWithCache(url, key) {
+    if (cache[key] && Date.now() - cache[key].timestamp < CACHE_DURATION) {
+        return cache[key].data;
+    }
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    cache[key] = {
+        data: data,
+        timestamp: Date.now()
+    };
+    
+    return data;
+}
+
+DATABASE OPTIMIZATION
+====================
+
+For best performance:
+
+1. Index frequently queried columns
+2. Use database views for complex queries
+3. Implement query optimization
+4. Use pagination for large datasets
+5. Cache frequently accessed data
+
+TESTING
+=======
+
+Unit Testing Example (Jest):
+
+test('fetchMetrics returns correct data', async () => {
+    const mockData = {
+        revenue: 524890,
+        orders: 2847
+    };
+    
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({ data: mockData })
+        })
+    );
+    
+    const result = await fetchMetrics(30);
+    
+    expect(result.revenue).toBe(524890);
+    expect(result.orders).toBe(2847);
+});
+
+Integration Testing:
+
+test('Dashboard loads and displays metrics', async () => {
+    const { getByText } = render(<Dashboard />);
+    
+    await waitFor(() => {
+        expect(getByText('524890')).toBeInTheDocument();
+    });
+});
+
+MONITORING & LOGGING
+====================
+
+Implement logging in your API:
+
+Node.js Example:
+const winston = require('winston');
+
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' })
+    ]
+});
+
+app.get('/api/v1/metrics', (req, res) => {
+    logger.info('Metrics requested', { range: req.query.range });
+    // Handle request
+});
+
+CONCLUSION
+==========
+
+This integration guide provides all necessary information to connect
+the E-Commerce Dashboard with your backend API. Follow the examples
+and adapt them to your specific technology stack and database structure.
+
+For additional support, refer to the main README.txt file.
