@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="E-Commerce Sales and Analytics Dashboard">
+    <title>E-Commerce Sales and Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="logo">SalesHub</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="dashboard">
+                            <span class="nav-icon">D</span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="sales">
+                            <span class="nav-icon">S</span>
+                            <span class="nav-text">Sales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="products">
+                            <span class="nav-icon">P</span>
+                            <span class="nav-text">Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="customers">
+                            <span class="nav-icon">C</span>
+                            <span class="nav-text">Customers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="analytics">
+                            <span class="nav-icon">A</span>
+                            <span class="nav-text">Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="reports">
+                            <span class="nav-icon">R</span>
+                            <span class="nav-text">Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="settings">
+                            <span class="nav-icon">T</span>
+                            <span class="nav-text">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">A</div>
+                    <div class="user-info">
+                        <p class="user-name">Admin User</p>
+                        <p class="user-email">admin@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="page-subtitle" id="current-date"></p>
+                </div>
+                <div class="header-right">
+                    <div class="filter-section">
+                        <label for="date-range">Date Range:</label>
+                        <select id="date-range" class="date-select">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="365">Last Year</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section active">
+                    <!-- Key Metrics Section -->
+                    <div class="metrics-container">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <h3 class="metric-title">Total Revenue</h3>
+                                <span class="metric-icon">Revenue</span>
+                            </div>
+                            <div class="metric-body">
+                                <p class="metric-value" id="total-revenue">524890</p>
+                                <p class="metric-currency">USD</p>
+                            </div>
+                            <div class="metric-footer">
+                                <span class="metric-change positive">Increase: 12.5%</span>
+                                <span class="metric-period">vs last month</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <h3 class="metric-title">Total Orders</h3>
+                                <span class="metric-icon">Orders</span>
+                            </div>
+                            <div class="metric-body">
+                                <p class="metric-value" id="total-orders">2847</p>
+                                <p class="metric-unit">Orders</p>
+                            </div>
+                            <div class="metric-footer">
+                                <span class="metric-change positive">Increase: 8.2%</span>
+                                <span class="metric-period">vs last month</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <h3 class="metric-title">Conversion Rate</h3>
+                                <span class="metric-icon">Conversion</span>
+                            </div>
+                            <div class="metric-body">
+                                <p class="metric-value" id="conversion-rate">3.24</p>
+                                <p class="metric-unit">Percentage</p>
+                            </div>
+                            <div class="metric-footer">
+                                <span class="metric-change negative">Decrease: 0.5%</span>
+                                <span class="metric-period">vs last month</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <h3 class="metric-title">Average Order Value</h3>
+                                <span class="metric-icon">Average</span>
+                            </div>
+                            <div class="metric-body">
+                                <p class="metric-value" id="average-order">185.20</p>
+                                <p class="metric-currency">USD</p>
+                            </div>
+                            <div class="metric-footer">
+                                <span class="metric-change positive">Increase: 5.1%</span>
+                                <span class="metric-period">vs last month</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Revenue Trend</h3>
+                                <p class="chart-subtitle">Monthly revenue performance</p>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="revenue-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Sales by Category</h3>
+                                <p class="chart-subtitle">Product category distribution</p>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="category-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Orders by Source</h3>
+                                <p class="chart-subtitle">Traffic source breakdown</p>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="source-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Customer Acquisition</h3>
+                                <p class="chart-subtitle">Weekly new customer growth</p>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="customer-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tables Section -->
+                    <div class="tables-container">
+                        <div class="table-card">
+                            <div class="table-header">
+                                <h3 class="table-title">Top Performing Products</h3>
+                                <p class="table-subtitle">Best selling items this month</p>
+                            </div>
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-product">Product Name</th>
+                                            <th class="col-category">Category</th>
+                                            <th class="col-units">Units Sold</th>
+                                            <th class="col-revenue">Revenue</th>
+                                            <th class="col-margin">Margin</th>
+                                            <th class="col-status">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-product">Wireless Headphones Pro</td>
+                                            <td class="col-category">Electronics</td>
+                                            <td class="col-units">1245</td>
+                                            <td class="col-revenue">124500</td>
+                                            <td class="col-margin">35%</td>
+                                            <td class="col-status"><span class="badge badge-active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-product">Smart Watch Ultra</td>
+                                            <td class="col-category">Wearables</td>
+                                            <td class="col-units">892</td>
+                                            <td class="col-revenue">98120</td>
+                                            <td class="col-margin">42%</td>
+                                            <td class="col-status"><span class="badge badge-active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-product">USB-C Power Bank</td>
+                                            <td class="col-category">Accessories</td>
+                                            <td class="col-units">2156</td>
+                                            <td class="col-revenue">75460</td>
+                                            <td class="col-margin">28%</td>
+                                            <td class="col-status"><span class="badge badge-active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-product">Laptop Stand Premium</td>
+                                            <td class="col-category">Office</td>
+                                            <td class="col-units">678</td>
+                                            <td class="col-revenue">68900</td>
+                                            <td class="col-margin">45%</td>
+                                            <td class="col-status"><span class="badge badge-warning">Low Stock</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-product">Mechanical Keyboard</td>
+                                            <td class="col-category">Accessories</td>
+                                            <td class="col-units">543</td>
+                                            <td class="col-revenue">54300</td>
+                                            <td class="col-margin">38%</td>
+                                            <td class="col-status"><span class="badge badge-discontinued">Discontinued</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="table-card">
+                            <div class="table-header">
+                                <h3 class="table-title">Recent Orders</h3>
+                                <p class="table-subtitle">Latest transaction history</p>
+                            </div>
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-order-id">Order ID</th>
+                                            <th class="col-customer-name">Customer</th>
+                                            <th class="col-amount">Amount</th>
+                                            <th class="col-date">Date</th>
+                                            <th class="col-status">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-order-id">#ORD-2024-5847</td>
+                                            <td class="col-customer-name">John Doe</td>
+                                            <td class="col-amount">2450</td>
+                                            <td class="col-date">March 15, 2024</td>
+                                            <td class="col-status"><span class="badge badge-delivered">Delivered</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-order-id">#ORD-2024-5846</td>
+                                            <td class="col-customer-name">Jane Smith</td>
+                                            <td class="col-amount">1890</td>
+                                            <td class="col-date">March 14, 2024</td>
+                                            <td class="col-status"><span class="badge badge-delivered">Delivered</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-order-id">#ORD-2024-5845</td>
+                                            <td class="col-customer-name">Mike Johnson</td>
+                                            <td class="col-amount">3120</td>
+                                            <td class="col-date">March 14, 2024</td>
+                                            <td class="col-status"><span class="badge badge-processing">Processing</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-order-id">#ORD-2024-5844</td>
+                                            <td class="col-customer-name">Sarah Williams</td>
+                                            <td class="col-amount">890</td>
+                                            <td class="col-date">March 13, 2024</td>
+                                            <td class="col-status"><span class="badge badge-delivered">Delivered</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-order-id">#ORD-2024-5843</td>
+                                            <td class="col-customer-name">Robert Brown</td>
+                                            <td class="col-amount">5670</td>
+                                            <td class="col-date">March 13, 2024</td>
+                                            <td class="col-status"><span class="badge badge-delivered">Delivered</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sales Section -->
+                <section id="sales" class="section">
+                    <div class="section-content">
+                        <h2>Sales Management</h2>
+                        <p>Sales section content goes here. Connect detailed sales metrics and reports.</p>
+                        <div class="placeholder-box">
+                            <p>Sales data visualization and analytics will be displayed here.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="products" class="section">
+                    <div class="section-content">
+                        <h2>Product Management</h2>
+                        <p>Products section content goes here. Manage inventory and product details.</p>
+                        <div class="placeholder-box">
+                            <p>Product catalog and inventory management interface will be displayed here.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Customers Section -->
+                <section id="customers" class="section">
+                    <div class="section-content">
+                        <h2>Customer Management</h2>
+                        <p>Customers section content goes here. View customer profiles and interactions.</p>
+                        <div class="placeholder-box">
+                            <p>Customer database and relationship management will be displayed here.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics" class="section">
+                    <div class="section-content">
+                        <h2>Analytics</h2>
+                        <p>Analytics section content goes here. Detailed performance metrics and insights.</p>
+                        <div class="placeholder-box">
+                            <p>Advanced analytics and business intelligence reports will be displayed here.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="section">
+                    <div class="section-content">
+                        <h2>Reports</h2>
+                        <p>Reports section content goes here. Generate and download business reports.</p>
+                        <div class="placeholder-box">
+                            <p>Report generation and export functionality will be displayed here.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="section">
+                    <div class="section-content">
+                        <h2>Settings</h2>
+                        <p>Settings section content goes here. Configure dashboard preferences.</p>
+                        <div class="placeholder-box">
+                            <p>System configuration and user preferences will be displayed here.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
